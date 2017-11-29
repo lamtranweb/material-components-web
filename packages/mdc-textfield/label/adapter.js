@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+/* eslint no-unused-vars: [2, {"args": "none"}] */
+
 /**
  * Adapter for MDC Text Field.
  *
@@ -26,7 +28,6 @@
  * @record
  */
 class MDCTextFieldLabelAdapter {
-
   /**
    * Adds a class to the label element. We recommend you add a conditional
    * check here, and in removeClass, for whether or not the label is
@@ -44,4 +45,3 @@ class MDCTextFieldLabelAdapter {
 }
 
 export default MDCTextFieldLabelAdapter;
-  

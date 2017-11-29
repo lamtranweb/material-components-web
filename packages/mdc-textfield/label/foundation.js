@@ -61,7 +61,7 @@ class MDCTextFieldLabelFoundation extends MDCFoundation {
   deactivateFocus(hasValidInput) {
     this.adapter_.removeClass(cssClasses.LABEL_SHAKE);
 
-    if (hasValidInput) {
+    if (!hasValidInput) {
       this.adapter_.removeClass(cssClasses.LABEL_FLOAT_ABOVE);
     }
   }

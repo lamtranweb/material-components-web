@@ -212,6 +212,7 @@ class MDCTextFieldFoundation extends MDCFoundation {
     const label = this.adapter_.getLabelFoundation();
 
     this.isFocused_ = false;
+    this.adapter_.removeClass(FOCUSED);
     const hasValidInput = !input.value && !this.isBadInput_();
     if (label) {
       label.floatLabel();

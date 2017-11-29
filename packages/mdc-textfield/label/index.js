@@ -16,7 +16,6 @@
  */
 
 import MDCComponent from '@material/base/component';
-import {MDCRipple} from '@material/ripple';
 
 import MDCTextFieldLabelAdapter from './adapter';
 import MDCTextFieldLabelFoundation from './foundation';
@@ -26,7 +25,6 @@ import MDCTextFieldLabelFoundation from './foundation';
  * @final
  */
 class MDCTextFieldLabel extends MDCComponent {
-
   /**
    * @param {!Element} root
    * @return {!MDCTextFieldLabel}
