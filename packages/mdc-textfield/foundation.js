@@ -45,8 +45,6 @@ class MDCTextFieldFoundation extends MDCFoundation {
     return /** @type {!MDCTextFieldAdapter} */ ({
       addClass: () => {},
       removeClass: () => {},
-      addClassToLabel: () => {},
-      removeClassFromLabel: () => {},
       setIconAttr: () => {},
       eventTargetHasClass: () => {},
       registerTextFieldInteractionHandler: () => {},
@@ -59,6 +57,7 @@ class MDCTextFieldFoundation extends MDCFoundation {
       getNativeInput: () => {},
       getBottomLineFoundation: () => {},
       getHelperTextFoundation: () => {},
+      getLabelFoundation: () => {},
     });
   }
 
@@ -92,7 +91,10 @@ class MDCTextFieldFoundation extends MDCFoundation {
     this.adapter_.addClass(MDCTextFieldFoundation.cssClasses.UPGRADED);
     // Ensure label does not collide with any pre-filled value.
     if (this.getNativeInput_().value) {
-      this.adapter_.addClassToLabel(MDCTextFieldFoundation.cssClasses.LABEL_FLOAT_ABOVE);
+      const label = this.adapter_.getLabelFoundation();
+      if (label) {
+        label.floatLabel();
+      }
     }
 
     this.adapter_.registerInputInteractionHandler('focus', this.inputFocusHandler_);
@@ -148,14 +150,16 @@ class MDCTextFieldFoundation extends MDCFoundation {
    * Activates the text field focus state.
    */
   activateFocus() {
-    const {FOCUSED, LABEL_FLOAT_ABOVE, LABEL_SHAKE} = MDCTextFieldFoundation.cssClasses;
+    const {FOCUSED} = MDCTextFieldFoundation.cssClasses;
     this.adapter_.addClass(FOCUSED);
     const bottomLine = this.adapter_.getBottomLineFoundation();
     if (bottomLine) {
       bottomLine.activate();
     }
-    this.adapter_.addClassToLabel(LABEL_FLOAT_ABOVE);
-    this.adapter_.removeClassFromLabel(LABEL_SHAKE);
+    const label = this.adapter_.getLabelFoundation();
+    if (label) {
+      label.floatLabel();
+    }
     const helperText = this.adapter_.getHelperTextFoundation();
     if (helperText) {
       helperText.showToScreenReader();
@@ -203,15 +207,17 @@ class MDCTextFieldFoundation extends MDCFoundation {
    * Deactives the Text Field's focus state.
    */
   deactivateFocus() {
-    const {FOCUSED, LABEL_FLOAT_ABOVE, LABEL_SHAKE} = MDCTextFieldFoundation.cssClasses;
+    const {FOCUSED} = MDCTextFieldFoundation.cssClasses;
     const input = this.getNativeInput_();
+    const label = this.adapter_.getLabelFoundation();
 
     this.isFocused_ = false;
-    this.adapter_.removeClass(FOCUSED);
-    this.adapter_.removeClassFromLabel(LABEL_SHAKE);
-
-    if (!input.value && !this.isBadInput_()) {
-      this.adapter_.removeClassFromLabel(LABEL_FLOAT_ABOVE);
+    const hasValidInput = !input.value && !this.isBadInput_();
+    if (label) {
+      label.floatLabel();
+      label.deactivateFocus(hasValidInput);
+    }
+    if (hasValidInput) {
       this.receivedUserInput_ = false;
     }
 
@@ -226,11 +232,14 @@ class MDCTextFieldFoundation extends MDCFoundation {
    * @private
    */
   changeValidity_(isValid) {
-    const {INVALID, LABEL_SHAKE} = MDCTextFieldFoundation.cssClasses;
+    const {INVALID} = MDCTextFieldFoundation.cssClasses;
+    const label = this.adapter_.getLabelFoundation();
+    if (label) {
+      label.changeValidity(isValid);
+    }
     if (isValid) {
       this.adapter_.removeClass(INVALID);
     } else {
-      this.adapter_.addClassToLabel(LABEL_SHAKE);
       this.adapter_.addClass(INVALID);
     }
     const helperText = this.adapter_.getHelperTextFoundation();

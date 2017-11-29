@@ -23,6 +23,7 @@ import {MDCTextFieldAdapter} from './adapter';
 import MDCTextFieldFoundation from './foundation';
 import {MDCTextFieldBottomLine} from './bottom-line';
 import {MDCTextFieldHelperText} from './helper-text';
+import {MDCTextFieldLabel} from './label';
 
 /**
  * @extends {MDCComponent<!MDCTextFieldFoundation>}
@@ -36,7 +37,7 @@ class MDCTextField extends MDCComponent {
     super(...args);
     /** @private {?Element} */
     this.input_;
-    /** @private {?Element} */
+    /** @private {?MDCTextFieldLabel} */
     this.label_;
     /** @type {?MDCRipple} */
     this.ripple;
@@ -66,7 +67,10 @@ class MDCTextField extends MDCComponent {
     rippleFactory = (el) => new MDCRipple(el),
     bottomLineFactory = (el) => new MDCTextFieldBottomLine(el)) {
     this.input_ = this.root_.querySelector(strings.INPUT_SELECTOR);
-    this.label_ = this.root_.querySelector(strings.LABEL_SELECTOR);
+    const labelElement = this.root_.querySelector(strings.LABEL_SELECTOR);
+    if (labelElement) {
+      this.label_ = new MDCTextFieldLabel(labelElement);
+    }
     this.ripple = null;
     if (this.root_.classList.contains(cssClasses.BOX)) {
       this.ripple = rippleFactory(this.root_);
@@ -97,6 +101,9 @@ class MDCTextField extends MDCComponent {
     }
     if (this.helperText_) {
       this.helperText_.destroy();
+    }
+    if (this.label_) {
+      this.label_.destroy();
     }
     super.destroy();
   }
@@ -145,18 +152,6 @@ class MDCTextField extends MDCComponent {
     return new MDCTextFieldFoundation(/** @type {!MDCTextFieldAdapter} */ (Object.assign({
       addClass: (className) => this.root_.classList.add(className),
       removeClass: (className) => this.root_.classList.remove(className),
-      addClassToLabel: (className) => {
-        const label = this.label_;
-        if (label) {
-          label.classList.add(className);
-        }
-      },
-      removeClassFromLabel: (className) => {
-        const label = this.label_;
-        if (label) {
-          label.classList.remove(className);
-        }
-      },
       eventTargetHasClass: (target, className) => target.classList.contains(className),
       registerTextFieldInteractionHandler: (evtType, handler) => this.root_.addEventListener(evtType, handler),
       deregisterTextFieldInteractionHandler: (evtType, handler) => this.root_.removeEventListener(evtType, handler),
@@ -180,6 +175,12 @@ class MDCTextField extends MDCComponent {
       getHelperTextFoundation: () => {
         if (this.helperText_) {
           return this.helperText_.foundation;
+        }
+        return undefined;
+      },
+      getLabelFoundation: () => {
+        if (this.label_) {
+          return this.label_.foundation;
         }
         return undefined;
       },
