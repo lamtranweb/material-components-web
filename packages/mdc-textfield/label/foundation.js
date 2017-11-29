@@ -49,13 +49,15 @@ class MDCTextFieldLabelFoundation extends MDCFoundation {
     super(Object.assign(MDCTextFieldLabelFoundation.defaultAdapter, adapter));
   }
 
+  /** Makes the label float above the text field. */
   floatLabel() {
     this.adapter_.addClass(cssClasses.LABEL_FLOAT_ABOVE);
     this.adapter_.removeClass(cssClasses.LABEL_SHAKE);
   }
 
   /**
-   * Deactives the Text Field's focus state.
+   * Deactivates the label's focus state based on whether the text
+   * field has a valid input.
    * @param {boolean} hasValidInput
    */
   deactivateFocus(hasValidInput) {
@@ -67,7 +69,7 @@ class MDCTextFieldLabelFoundation extends MDCFoundation {
   }
 
   /**
-   * Updates the Text Field's valid state based on the supplied validity.
+   * Updates the label's valid state based on the supplied validity.
    * @param {boolean} isValid
    */
   changeValidity(isValid) {

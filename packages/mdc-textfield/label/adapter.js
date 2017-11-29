@@ -29,10 +29,7 @@
  */
 class MDCTextFieldLabelAdapter {
   /**
-   * Adds a class to the label element. We recommend you add a conditional
-   * check here, and in removeClass, for whether or not the label is
-   * present so that the JS component could be used with text fields that don't
-   * require a label, such as the full-width text field.
+   * Adds a class to the label element.
    * @param {string} className
    */
   addClass(className) {}
