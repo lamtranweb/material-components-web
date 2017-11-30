@@ -43,15 +43,15 @@ test('#floatLabel adds mdc-text-field__label--float-above class', () => {
   td.verify(mockAdapter.addClass(cssClasses.LABEL_FLOAT_ABOVE));
 });
 
-test('#deactivateFocus does not remove mdc-text-field__label--float-above class if hasValidInput is true', () => {
+test('#deactivateFocus does not remove mdc-text-field__label--float-above class if hasEmptyInput is false', () => {
   const {foundation, mockAdapter} = setupTest();
-  foundation.deactivateFocus(true);
+  foundation.deactivateFocus(false);
   td.verify(mockAdapter.removeClass(cssClasses.LABEL_FLOAT_ABOVE), {times: 0});
 });
 
-test('#deactivateFocus removes mdc-text-field__label--float-above class if hasValidInput is false', () => {
+test('#deactivateFocus removes mdc-text-field__label--float-above class if hasEmptyInput is true', () => {
   const {foundation, mockAdapter} = setupTest();
-  foundation.deactivateFocus(false);
+  foundation.deactivateFocus(true);
   td.verify(mockAdapter.removeClass(cssClasses.LABEL_FLOAT_ABOVE));
 });
 

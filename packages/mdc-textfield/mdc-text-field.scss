@@ -26,8 +26,7 @@
 @import "@material/typography/variables";
 @import "./bottom-line/mdc-text-field-bottom-line";
 @import "./helper-text/mdc-text-field-helper-text";
-@include mdc-text-field-invalid-label-shake_keyframes_(standard, 100%);
-@include mdc-text-field-invalid-label-shake_keyframes_(box, 50%);
+@import "./label/mdc-text-field-label";
 
 // postcss-bem-linter: define text-field
 
@@ -100,43 +99,6 @@
       }
     }
   }
-
-  &__label {
-    position: absolute;
-    bottom: 8px;
-    left: 0;
-    transform-origin: left top;
-    transition: mdc-text-field-transition(transform), mdc-text-field-transition(color);
-    color: $mdc-text-field-underline-on-light-idle;
-    cursor: text;
-
-    // stylelint-disable plugin/selector-bem-pattern
-    @include mdc-rtl(".mdc-text-field") {
-      right: 0;
-      left: auto;
-      transform-origin: right top;
-    }
-    // stylelint-enable plugin/selector-bem-pattern
-
-    @include mdc-theme-dark(".mdc-text-field") {
-      @include mdc-theme-prop(color, $mdc-text-field-dark-label);
-    }
-
-    &--float-above {
-      transform: translateY(-100%) scale(.75, .75);
-      cursor: auto;
-    }
-  }
-}
-
-// Move label when text-field gets autofilled in Chrome
-.mdc-text-field__input {
-  // stylelint-disable plugin/selector-bem-pattern
-  &:-webkit-autofill + .mdc-text-field__label {
-    transform: translateY(-100%) scale(.75, .75);
-    cursor: auto;
-  }
-  // stylelint-enable plugin/selector-bem-pattern
 }
 
 .mdc-text-field--box {
@@ -353,11 +315,6 @@
   border-color: $mdc-text-field-error-on-light;
 }
 
-.mdc-text-field__label--float-above {
-  &.mdc-text-field__label--shake {
-    animation: invalid-shake-float-above-standard 250ms 1;
-  }
-}
 // stylelint-enable plugin/selector-bem-pattern
 
 .mdc-text-field--dense {
@@ -408,19 +365,6 @@
   .mdc-text-field__label {
     bottom: 8px;
     cursor: default;
-  }
-}
-
-.mdc-text-field__input:required + .mdc-text-field__label::after {
-  margin-left: 1px;
-  content: "*";
-
-  .mdc-text-field--focused & {
-    color: $mdc-text-field-error-on-light;
-
-    @include mdc-theme-dark(".mdc-text-field", true) {
-      color: $mdc-text-field-error-on-dark;
-    }
   }
 }
 
