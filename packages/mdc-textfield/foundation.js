@@ -68,14 +68,14 @@ class MDCTextFieldFoundation extends MDCFoundation {
    * @param {!MDCTextFieldInputFoundation=} inputFoundation
    */
   constructor(adapter = /** @type {!MDCTextFieldAdapter} */ ({}),
-              bottomLine, helperText, input) {
+              bottomLineFoundation, helperTextFoundation, inputFoundation) {
     super(Object.assign(MDCTextFieldFoundation.defaultAdapter, adapter));
 
-    /** @type {!MDCTextFieldBottomLineFoundation} */
+    /** @type {?MDCTextFieldBottomLineFoundation} */
     this.bottomLine_ = bottomLineFoundation;
-    /** @type {!MDCTextFieldHelperTextFoundation} */
+    /** @type {?MDCTextFieldHelperTextFoundation} */
     this.helperText_ = helperTextFoundation;
-    /** @type {!MDCTextFieldInputFoundation} */
+    /** @type {?MDCTextFieldInputFoundation} */
     this.input_ = inputFoundation;
 
     /** @private {boolean} */
